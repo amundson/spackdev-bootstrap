@@ -1,9 +1,21 @@
 #!/bin/sh
 
+function check_for_help () {
+  if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$1" == "-help" ]; then
+    echo "bootstrap-spackdev [DIR]"
+    echo "    Installs Spack and SpackDev in DIR."
+    echo "    DIR must already exist."
+    echo "    If DIR is not specified, uses current directory."
+    exit 1
+  fi
+}
+
 function get_dir() {
   if [ -z "$1" ] ; then
+    echo "empty"
     req_dir="`pwd`"
   else
+    echo "full"
     req_dir="$1"
   fi
   cd "$req_dir" &&\
@@ -30,7 +42,8 @@ function create_setup_sh() {
   echo "done"
 }
 
-get_dir &&\
+check_for_help "$@" &&
+get_dir "$@" &&\
 get_spack &&\
 get_spackdev &&\
 create_setup_sh &&
