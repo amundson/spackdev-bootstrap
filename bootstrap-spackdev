@@ -1,7 +1,7 @@
 #!/bin/sh
 
-function check_for_help () {
-  if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$1" == "-help" ]; then
+check_for_help () {
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ "$1" = "-help" ]; then
     echo "bootstrap-spackdev [-k] [DIR]"
     echo "    Installs Spack and SpackDev in DIR."
     echo "    DIR must already exist."
@@ -10,16 +10,16 @@ function check_for_help () {
   fi
 }
 
-function check_for_keep () {
-  if [ "$1" == "-k" ]; then
+check_for_keep () {
+  if [ "$1" = "-k" ]; then
     keep=true
   else
     keep=false
   fi
 }
 
-function get_dir() {
-  if [ "$keep" == "true" ]; then
+get_dir() {
+  if [ "$keep" = "true" ]; then
     echo "shifting"
     shift
   fi
@@ -35,20 +35,20 @@ function get_dir() {
   echo "using $dir for SpackDev and Spack install..."
 }
 
-function get_spack() {
+get_spack() {
   echo "checking out Spack... " && \
   git clone --branch spackdev-lsw-ws \
     https://github.com/amundson/spack.git && \
   echo "done."
 }
 
-function get_spackdev() {
+get_spackdev() {
   echo "checking out SpackDev... " && \
   git clone https://github.com/amundson/spackdev.git && \
   echo "done."
 }
 
-function create_setup_sh() {
+create_setup_sh() {
   echo "creating setup.sh... " && \
   echo "export PATH=\"$dir/spackdev/bin:\$PATH\"" > setup.sh && \
   echo ". \"$dir/spack/share/spack/setup-env.sh\"" >> setup.sh && \
