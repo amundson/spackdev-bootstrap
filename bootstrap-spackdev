@@ -7,32 +7,31 @@ function get_dir() {
     req_dir="$1"
   fi
   cd "$req_dir" &&\
-  dir="\bin\pwd" && \
+  dir="`/bin/pwd`" && \
   echo "using $dir for SpackDev and Spack install..."
 }
 
 function get_spack() {
-  echo -n "checking out Spack... " && \
+  echo "checking out Spack... " && \
   git clone https://github.com/amundson/spack.git && \
   echo "done."
 }
 
 function get_spackdev() {
-  echo -n "checking out SpackDev... " && \
+  echo "checking out SpackDev... " && \
   git clone https://github.com/amundson/spackdev.git && \
   echo "done."
 }
 
 function create_setup_sh() {
-  echo -n "creating setup.sh... " && \
-  echo "export PATH=\"$dir/spackdev/bin:$PATH\" > setup.sh && \
+  echo "creating setup.sh... " && \
+  echo "export PATH=\"$dir/spackdev/bin:\$PATH\"" > setup.sh && \
   echo ". \"$dir/spack/share/spack/setup-env.sh\"" >> setup.sh && \
   echo "done"
 }
 
-git_dir &&\
+get_dir &&\
 get_spack &&\
 get_spackdev &&\
-create_setup.sh &&
-
-echo "use '. \"$dir/setup.sh\"' to get started"
+create_setup_sh &&
+echo "use \". $dir/setup.sh\" to get started"
