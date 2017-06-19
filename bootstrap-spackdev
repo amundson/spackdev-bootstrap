@@ -2,7 +2,7 @@
 
 function check_for_help () {
   if [ "$1" == "-h" ] || [ "$1" == "--help" ] || [ "$1" == "-help" ]; then
-    echo "bootstrap-spackdev [DIR]"
+    echo "bootstrap-spackdev [-k] [DIR]"
     echo "    Installs Spack and SpackDev in DIR."
     echo "    DIR must already exist."
     echo "    If DIR is not specified, uses current directory."
@@ -10,8 +10,20 @@ function check_for_help () {
   fi
 }
 
+function check_for_keep () {
+  if [ "$1" == "-k" ]; then
+    keep=true
+  else
+    keep=false
+  fi
+}
+
 function get_dir() {
-  if [ -z "$1" ] ; then
+  if [ "$keep" == "true" ]; then
+    echo "shifting"
+    shift
+  fi
+  if [ -z "$1" ]; then
     echo "empty"
     req_dir="`pwd`"
   else
@@ -25,7 +37,8 @@ function get_dir() {
 
 function get_spack() {
   echo "checking out Spack... " && \
-  git clone https://github.com/amundson/spack.git && \
+  git clone --branch spackdev-lsw-ws \
+    https://github.com/amundson/spack.git && \
   echo "done."
 }
 
@@ -42,7 +55,8 @@ function create_setup_sh() {
   echo "done"
 }
 
-check_for_help "$@" &&
+check_for_help "$@" &&\
+check_for_keep "$@" &&\
 get_dir "$@" &&\
 get_spack &&\
 get_spackdev &&\
