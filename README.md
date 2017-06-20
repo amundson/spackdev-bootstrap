@@ -9,6 +9,7 @@ This repository contains the bootstrap script to get started with SpackDev
 
 ```
 git clone https://github.com/amundson/spackdev-bootstrap.git
+cd spackdev-bootstrap
 ./bootstrap-spackdev
 ```
 
