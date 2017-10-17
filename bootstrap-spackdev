@@ -37,7 +37,7 @@ get_dir() {
 
 get_spack() {
   echo "checking out Spack... " && \
-  git clone --branch spackdev-lsw-ws \
+  git clone --branch spackdev \
     https://github.com/amundson/spack.git && \
   echo "done."
 }
